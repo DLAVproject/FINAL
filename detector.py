@@ -22,6 +22,8 @@ class Detector(object):
         self.first_pass = True
         self.input_size = 416
         self.trigger_id = None
+        self.frame_shape = [120, 160]
+        self.prev_bbox = [self.frame_shape[1]/2-5, self.frame_shape[0]/2-5, self.frame_shape[1]/2+5, self.frame_shape[0]/2+5]
 
         # initialize deep sort
         model_filename = 'model_data/mars-small128.pb'
@@ -33,7 +35,7 @@ class Detector(object):
         metric = nn_matching.NearestNeighborDistanceMetric("cosine", max_cosine_distance, nn_budget)
         
         # initialize tracker
-        max_iou_distance = 0.45
+        max_iou_distance = 0.7
         max_age = 60
         n_init = 10
         self.tracker = Tracker(metric, max_iou_distance, max_age, n_init)
@@ -77,6 +79,7 @@ class Detector(object):
                 print('reinitialized')
                 self.first_pass = True
                 self.counter_reinit = 0
+                self.prev_bbox = [self.frame_shape[1]/2-5, self.frame_shape[0]/2-5, self.frame_shape[1]/2+5, self.frame_shape[0]/2+5]
 
         # convert data to numpy arrays and slice out unused elements
         num_objects = valid_detections.numpy()[0]
@@ -128,7 +131,6 @@ class Detector(object):
         # call the tracker
         self.tracker.predict()
         self.tracker.update(detections)
-        self.in_frame = False
 
         # update tracks
         for track in self.tracker.tracks:
@@ -145,10 +147,9 @@ class Detector(object):
 
             # show only triggered person in frame
             if track.track_id == self.trigger_id:
-                cv2.rectangle(frame, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (255,0,0), 2)
-                self.in_frame = True
+                self.prev_bbox = bbox
+                return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2], [1]
                 
-        if self.in_frame:
-            return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2], [1]
-        else:
-            return [frame.shape[1]/2, frame.shape[0]/2], [0] #center of frame
+        bbox = self.prev_bbox
+        return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2], [0]
+        #return [frame.shape[1]/2, frame.shape[0]/2], [0] #center of frame
