@@ -24,6 +24,7 @@ class Detector(object):
         self.trigger_id = None
         self.frame_shape = [120, 160]
         self.prev_bbox = [self.frame_shape[1]/2-5, self.frame_shape[0]/2-5, self.frame_shape[1]/2+5, self.frame_shape[0]/2+5]
+        self.counter_lost = 0 #counter to stop robots movement only after 5 frames without detection
 
         # initialize deep sort
         model_filename = 'model_data/mars-small128.pb'
@@ -147,9 +148,15 @@ class Detector(object):
 
             # show only triggered person in frame
             if track.track_id == self.trigger_id:
+                self.counter_lost = 0
                 self.prev_bbox = bbox
-                return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2], [1]
-                
+                return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2, bbox[2]-bbox[0], bbox[3]-bbox[1]], [1]
+        
+        #triggered person is not detected in frame 
+        self.counter_lost += 1
         bbox = self.prev_bbox
-        return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2], [0]
-        #return [frame.shape[1]/2, frame.shape[0]/2], [0] #center of frame
+        
+        if self.counter_lost >= 5:
+            return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2, bbox[2]-bbox[0], bbox[3]-bbox[1]], [0]
+        else:
+            return [(bbox[0]+bbox[2])/2, (bbox[1]+bbox[3])/2, bbox[2]-bbox[0], bbox[3]-bbox[1]], [0.7]
