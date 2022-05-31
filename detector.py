@@ -25,6 +25,7 @@ class Detector(object):
         self.frame_shape = [120, 160]
         self.prev_bbox = [self.frame_shape[1]/2-5, self.frame_shape[0]/2-5, self.frame_shape[1]/2+5, self.frame_shape[0]/2+5]
         self.counter_lost = 0 #counter to stop robots movement only after 5 frames without detection
+        self.previous_reinit = 0
 
         # initialize deep sort
         model_filename = 'model_data/mars-small128.pb'
@@ -37,8 +38,8 @@ class Detector(object):
         
         # initialize tracker
         max_iou_distance = 0.7
-        max_age = 60
-        n_init = 10
+        max_age = 24
+        n_init = 16
         self.tracker = Tracker(metric, max_iou_distance, max_age, n_init)
 
         # load saved model
@@ -49,8 +50,10 @@ class Detector(object):
         self.frame_num +=1
 
         # prepare image for detection process
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        image_data = cv2.resize(frame, (self.input_size, self.input_size))
+        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = np.asarray(frame)
+        #image_data = cv2.resize(frame, (self.frame_shape[1], self.frame_shape[0]))
+        image_data = cv2.resize(frame, (416, 416))
         image_data = image_data / 255.
         image_data = image_data[np.newaxis, ...].astype(np.float32)
 
@@ -75,8 +78,11 @@ class Detector(object):
 
         # reinitialization when camera is blocked for several seconds
         if valid_detections[0] == 0:
+            if self.previous_reinit==0:
+                self.counter_reinit=0
             self.counter_reinit += 1
-            if self.counter_reinit >= 61:
+            self.previous_reinit=1
+            if self.counter_reinit >= 24:
                 print('reinitialized')
                 self.first_pass = True
                 self.counter_reinit = 0
