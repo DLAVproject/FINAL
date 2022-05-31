@@ -138,6 +138,17 @@ class Detector(object):
         # call the tracker
         self.tracker.predict()
         self.tracker.update(detections)
+        
+        # initialize triggered person
+        if self.first_pass == True:
+            max_size = 0
+            for track in self.tracker.tracks:
+                bbox = track.to_tlbr()
+                this_size = (bbox[2]-bbox[0]) * (bbox[3]-bbox[1]) #area of bbox
+                if this_size > max_size:
+                    max_size = this_size
+                    self.trigger_id = track.track_id
+            self.first_pass = False
 
         # update tracks
         for track in self.tracker.tracks:
@@ -145,12 +156,6 @@ class Detector(object):
                 continue 
 
             bbox = track.to_tlbr()
-            class_name = track.get_class()
-
-            # initialize triggered person
-            if self.first_pass == True:
-                self.trigger_id = track.track_id
-                self.first_pass = False
 
             # show only triggered person in frame
             if track.track_id == self.trigger_id:
