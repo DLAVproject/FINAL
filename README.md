@@ -4,6 +4,7 @@ __TO TA__
 
 - We uploaded the whole repo as the detector.py has dependencies all over it. Milestone 1 can be found in milestone1.ipynb or milestone1.py, milestone 2 in milestone2.ipynb, and milestone 3 in the detector.py file. The report is found as report.pdf. Please, let us know if you have any questions!
 - The notebooks for the milestones use OpenCV for webcam capturing. So you should run them locally, not in Colab.
+- necessary packages can be installed by running `pip install -r requirements.txt`
 
 
 
