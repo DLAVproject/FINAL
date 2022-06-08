@@ -6,6 +6,8 @@ __TO TA__
 - The notebooks for the milestones use OpenCV for webcam capturing. So you should run them locally, not in Colab.
 - necessary packages can be installed by running `pip install -r requirements.txt`
 
+![Alt text](/images/1.jpg?raw=true "Title")
+![Alt text](/images/2.jpg?raw=true "Title")
 
 
 This repo is forked from: https://github.com/theAIGuysCode/yolov4-deepsort to customize for an own application. We use the DeepSort with Yolo algorithm to create a tracker which is partcipating in the Tandem Race at EPFL as part of the course CIVIL-459: Deep Learning for autonomous vehicles. The relevant additions can be found in the file detector.py, which is the file that runs the tracker on the Loomo. 
