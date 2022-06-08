@@ -6,6 +6,8 @@ __TO TA__
 - The notebooks for the milestones use OpenCV for webcam capturing. So you should run them locally, not in Colab.
 - necessary packages can be installed by running `pip install -r requirements.txt`
 
+Below, you see two example images from our milestone 1 initialization with pose estimation:
+
 ![Alt text](/images/1.jpg?raw=true "Title")
 ![Alt text](/images/2.jpg?raw=true "Title")
 
