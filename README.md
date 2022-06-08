@@ -1,5 +1,8 @@
 # yolov4-deepsort
 
+The Google Drive folder containing our deliverables can be found [here](https://drive.google.com/drive/folders/15Pl7nEp11lsSThYhbWsnSvAdteqKZAdh?usp=sharing).
+
+
 __TO TA__
 
 - We uploaded the whole repo as the detector.py has dependencies all over it. Milestone 1 can be found in milestone1.ipynb or milestone1.py, milestone 2 in milestone2.py, and milestone 3 in the detector.py file. The report is found as report.pdf. Please, let us know if you have any questions!
