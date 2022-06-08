@@ -1,8 +1,10 @@
 # yolov4-deepsort
 
-This repo is forked from: https://github.com/theAIGuysCode/yolov4-deepsort to customize for an own application. We use the DeepSort with Yolo algorithm to create a tracker which is partcipating in the Tandem Race at EPFL as part of the course CIVIL-459: Deep Learning for autonomous vehicles. The relevant additions can be found in the file detector.py, which is the file that runs the tracker on the Loomo. 
+__TO TA__
 
-Object tracking implemented with YOLOv4, DeepSort, and TensorFlow. YOLOv4 is a state of the art algorithm that uses deep convolutional neural networks to perform object detections. We can take the output of YOLOv4 feed these object detections into Deep SORT (Simple Online and Realtime Tracking with a Deep Association Metric) in order to create a highly accurate object tracker.
+We uploaded the whole repo as the detector.py has dependencies all over it. Milestone 1 can be found in milestone1.ipynb, milestone 2 in milestone2.ipynb, and milestone 3 in the detector.py file. The report is found as report.pdf. Please, let us know if you have any questions!
+
+This repo is forked from: https://github.com/theAIGuysCode/yolov4-deepsort to customize for an own application. We use the DeepSort with Yolo algorithm to create a tracker which is partcipating in the Tandem Race at EPFL as part of the course CIVIL-459: Deep Learning for autonomous vehicles. The relevant additions can be found in the file detector.py, which is the file that runs the tracker on the Loomo. 
 
 ### References  
 
