@@ -150,7 +150,6 @@ def main(_argv):
         # Covering the Camera with your hand prevents it from returning any detections.
         # Doing so for (N=60) frames leads our tracker to re-initialize on the first person in the center of the frame
         if valid_detections[0] == 0:
-            print('counter_reinit = ', counter_reinit)
             if previous_reinit==0:
                 counter_reinit=0
             counter_reinit += 1
