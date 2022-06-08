@@ -6,3 +6,6 @@ absl-py
 easydict
 matplotlib
 pillow
+gluoncv
+mxnet
+numpy==1.21.5
